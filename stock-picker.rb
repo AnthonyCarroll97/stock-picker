@@ -49,7 +49,7 @@ end
 system "clear"
 print "Enter ticker code: "
 ticker = gets.chomp.upcase
-
+puts "Generating table..."
 #initialize table and results arrays
 @table = TTY::Table.new(["Financial", "10-year", "5-year", "3-year"], [])
 @revenue = ["Revenue"]
