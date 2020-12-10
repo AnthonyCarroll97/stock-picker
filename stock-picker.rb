@@ -51,13 +51,17 @@ puts "Generating table..."
 financials = ["revenue", "total_equity", "roic", "fcf", "eps_basic"]
 
 financials.each do |financial|
-
     # Prepare query with variables
-    query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}?period=FY-9:FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
-    response = HTTParty.get(query)
-    # Parse JSON response and convert into array
-    info = JSON.parse response.to_s
-    arr = info["data"]
+    begin
+        query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}?period=FY-9:FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+        response = HTTParty.get(query)
+        # Parse JSON response and convert into array
+        info = JSON.parse response.to_s
+        arr = info["data"]
+    rescue 
+        puts "error!"
+        
+    end
     #send data to growth method
     growth(arr.last, arr.first, 10, financial)
     growth(arr.last, arr[5], 5, financial)
