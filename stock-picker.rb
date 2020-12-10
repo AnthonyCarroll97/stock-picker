@@ -37,7 +37,7 @@ end
 # Get ticker code 
 system "clear"
 print "Enter ticker code: "
-ticker = gets.chomp.upcase
+@ticker = gets.chomp.upcase
 puts "Generating table..."
 #initialize table and results arrays
 @table = TTY::Table.new(["Financial", "10-year", "5-year", "3-year"], [])
@@ -53,7 +53,7 @@ financials = ["revenue", "total_equity", "roic", "fcf", "eps_basic"]
 financials.each do |financial|
     # Prepare query with variables
     begin
-        query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}?period=FY-9:FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+        query = "https://public-api.quickfs.net/v1/data/#{@ticker}:AU/#{financial}?period=FY-9:FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
         response = HTTParty.get(query)
         # Parse JSON response and convert into array
         info = JSON.parse response.to_s
