@@ -71,7 +71,7 @@ financials.each do |financial|
     arr = info["data"]
     #send data to growth method
     growth(arr.last, arr.first, 10, financial)
-    growth(arr.last, arr[4], 5, financial)
+    growth(arr.last, arr[5], 5, financial)
     growth(arr.last, arr[7], 3, financial)
 end
 # populate table
