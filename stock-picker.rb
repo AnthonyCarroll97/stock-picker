@@ -4,18 +4,7 @@ require ('tty-table')
 
 def growth(present, past, n, financial)
     if past == 0
-        case financial
-        when "revenue"
-        @revenue << "-"
-        when "total_equity"
-        @total_equity << "-"
-        when "roic"
-        @roic << "-"
-        when "fcf"
-        @fcf << "-"
-        when "eps_basic"
-        @eps_basic << "-"
-        end
+        rate = " - "
     else 
         # Calculate rate of growth
         rate = ((present.to_f / past.to_f) ** ( 1/n.to_f )) - 1
@@ -29,19 +18,19 @@ def growth(present, past, n, financial)
         else 
             rate = "#{rate}%"
         end
-        # send to respective array
-        case financial
-        when "revenue"
-            @revenue << rate
-        when "total_equity"
-            @total_equity << rate
-        when "roic"
-            @roic << rate
-        when "fcf"
-            @fcf << rate
-        when "eps_basic"
-            @eps_basic << rate
-       end
+    end    
+    # send to respective array
+    case financial
+    when "revenue"
+        @revenue << rate
+    when "total_equity"
+        @total_equity << rate
+    when "roic"
+        @roic << rate
+    when "fcf"
+        @fcf << rate
+    when "eps_basic"
+        @eps_basic << rate
     end
 end
 
