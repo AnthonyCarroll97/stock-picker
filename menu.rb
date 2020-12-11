@@ -15,6 +15,7 @@ while true
         puts "press ENTER key to continue"
         gets
     when "Look at debt/equity"
+        system "clear"
         puts "under construction"
         puts "press ENTER key to continue"
         gets
@@ -24,6 +25,7 @@ while true
         puts "press ENTER key to continue"
         gets
     when "Print company report"
+        system "clear"
         puts "under construction"
         puts "press ENTER key to continue"
         gets

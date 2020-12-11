@@ -1,5 +1,5 @@
 require ('httparty')
-require_relative ('./menu.rb')    
+    
 def sticker_price(ticker)
 i = 1
 sticker_financials = ["eps_basic?period=FY", "total_equity?period=FY-9:FY", "price_to_earnings?period=FY-9:FY"]
@@ -25,10 +25,10 @@ sticker_financials.each do |financial|
 end
 
 future_eps = @ttm_eps * ((1 + @growth_rate) ** 10)
-puts "The future EPS will be #{future_eps.round(2)}"
+puts "The future EPS will be $#{future_eps.round(2)}"
 future_price = future_eps * @pe_ratio
-puts "The future price will be #{future_price.round(2)}"
-puts "The sticker price is #{(future_price / 4).round(2)}"
-puts "The MOS price is #{(future_price / 8).round(2)}"
+puts "The future price will be $#{future_price.round(2)}"
+puts "The sticker price is $#{(future_price / 4).round(2)}"
+puts "The MOS price is $#{(future_price / 8).round(2)}"
 end
 
