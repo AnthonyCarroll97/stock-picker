@@ -1,3 +1,6 @@
-#!bin/bash
+#!/bin/bash
 
-ruby stock-picker.rb
+#gem install bundler
+#bundle install
+
+ruby menu.rb 

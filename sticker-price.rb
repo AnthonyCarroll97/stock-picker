@@ -12,23 +12,18 @@ sticker_financials.each do |financial|
     case i
     when 1
         @ttm_eps = arr[0]
-        puts @ttm_eps
     when 2
         @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/10.0)) - 1
         @growth_rate = @growth_rate.round(2)
-        puts @growth_rate
     when 3
         @pe_ratio = ((arr.sum) / 10).round(2)
-        puts @pe_ratio
     end
     i += 1
 end
 
 future_eps = @ttm_eps * ((1 + @growth_rate) ** 10)
-puts "The future EPS will be $#{future_eps.round(2)}"
 future_price = future_eps * @pe_ratio
-puts "The future price will be $#{future_price.round(2)}"
-puts "The sticker price is $#{(future_price / 4).round(2)}"
-puts "The MOS price is $#{(future_price / 8).round(2)}"
+
+return "The future EPS will be $#{future_eps.round(2)}\nThe future share price will be $#{future_price.round(2)}\nThe sticker price is $#{(future_price / 4).round(2)}\nThe MOS price is $#{(future_price / 8).round(2)}"
 end
 
