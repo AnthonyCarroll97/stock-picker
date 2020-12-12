@@ -2,7 +2,7 @@ require ('tty-prompt')
 require_relative ('./sticker-price.rb')
 require_relative ('stock-picker.rb')
 prompt = TTY::Prompt.new
-menu = ["financials", "Look at debt/equity", "Calculate sticker price","Print company report", "Exit"]
+menu = ["financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
 # Get ticker code and validate
 
 if ARGV.length > 0
@@ -27,12 +27,12 @@ while true
         puts @table
         print "press ENTER key to continue"
         gets
-    when "Look at debt/equity"
+    when "Look at debt/cash flow"
         system "clear"
         puts "under construction"
         print "press ENTER key to continue"
         gets
-    when "Calculate sticker price"
+    when "Calculate sticker & MOS price"
         system "clear"
         @prices = sticker_price(ticker)
         puts @prices

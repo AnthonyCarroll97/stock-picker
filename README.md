@@ -7,10 +7,10 @@ The app will analyse a company based on the Rule #1 method. This method of compa
 Analysing a companies financial statements is a complex and time-consuming process. Even after you have found the right data you still need to perform a number of math operations to adhere to the Rule #1 method of analysis. This program will automate both of these tasks, requiring only the companies ticker code from the user.
 
 ### Identify the target audience
-The target audience for this application is investors who are aware of the Rule #1 method of stock analysis, who are tired of manually searching for the financial data and performing the math operations on it.
+The target audience for this application is investors who are aware of the Rule #1 method of stock analysis, who are tired of searching through financial statements for the relevant data and manually performing the required calculations.
 
 ### Explain how a member of the target audience will use it
 The 
 
 ## Feature list
-- 
+- The first feature will be a 
