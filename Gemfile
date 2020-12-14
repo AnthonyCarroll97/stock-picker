@@ -8,4 +8,4 @@ gem 'colorize'
 gem "tty-table"
 gem "httparty"
 gem "tty-prompt"
-
+gem 'rspec'

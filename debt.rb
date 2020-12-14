@@ -8,6 +8,7 @@ def debt_levels(ticker)
         # Parse JSON response and convert into array
         info = JSON.parse response.to_s
         arr = info["data"]
+
         case financial 
         when "lt_debt"
             @lt_debt = arr[0]
@@ -15,9 +16,15 @@ def debt_levels(ticker)
             @fcf = arr[0]
         end
     end
-    years = @lt_debt.to_f / @fcf.to_f
 
-    return "#{ticker} can pay off their long term debt in #{years.round(1)} years."
+    if @lt_debt == 0
+        return "#{ticker} has no long term debt!"
+    elsif @fcf < 0
+        puts "#{ticker} posted negative free cash flow for the last financial year"
+    else
+        years = @lt_debt.to_f / @fcf.to_f
+        return "#{ticker} can pay off their long term debt in #{years.round(1)} years of free cash flow."
+    end
 end 
 
-puts debt_levels('FMG')
+

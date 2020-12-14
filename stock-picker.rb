@@ -56,7 +56,6 @@ financials.each do |financial|
         arr = info["data"]
     rescue 
         puts "error!"
-        
     end
     #send data to growth method
     growth(arr.last, arr.first, 10, financial)
