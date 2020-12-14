@@ -4,17 +4,33 @@ require_relative ('stock-picker.rb')
 require_relative ('debt.rb')
 prompt = TTY::Prompt.new
 
-# Get ticker code and validate
-ticker = ""
-while ticker.length != 3
+# Get ticker code and validate length
+
+while true
+    ticker = ""
     if ARGV.length > 0 && ARGV[0].length == 3
         ticker = ARGV[0].upcase
     else 
-        ARGV.clear
-        puts "Enter ticker code: "
-        ticker = gets.chomp.upcase
+        while ticker.length != 3
+            ARGV.clear
+            puts "Enter ticker code: "
+            ticker = gets.chomp.upcase
+        end
+    end
+    # Check that company exists on the ASX
+    query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/name?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+    response = HTTParty.get(query)
+    info = JSON.parse response.to_s
+    name = info["data"]
+    if name[0].match(/UnsupportedCompanyError/)
+        puts "It appears that company does not exist on the ASX, please try again."
+    else
+        break
     end
 end
+
+
+
 # Check for optional argument
 if ARGV[1] == "-d"
     system "clear"
@@ -28,9 +44,10 @@ else
     ARGV.clear
 end
 
+
 menu = ["financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
 while true
-    input = prompt.select("Analysing #{ticker}", menu)
+    input = prompt.select("Analysing #{name}", menu)
     case input
     when "financials"
         system "clear"
