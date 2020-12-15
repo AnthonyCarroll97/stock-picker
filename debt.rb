@@ -3,12 +3,15 @@ require ('httparty')
 def debt_levels(ticker)
     debt_financials = ["lt_debt", "fcf"]
     debt_financials.each do |financial|
-        query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
-        response = HTTParty.get(query)
-        # Parse JSON response and convert into array
-        info = JSON.parse response.to_s
-        arr = info["data"]
-
+        begin
+            query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+            response = HTTParty.get(query)
+            # Parse JSON response and convert into array
+            info = JSON.parse response.to_s
+            arr = info["data"]
+        rescue 
+            return "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
+        end
         case financial 
         when "lt_debt"
             @lt_debt = arr[0]
