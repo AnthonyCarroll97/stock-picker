@@ -10,6 +10,7 @@ while true
     ticker = ""
     if ARGV.length > 0 && ARGV[0].length == 3
         ticker = ARGV[0].upcase
+        ARGV.shift
     else 
         while ticker.length != 3
             ARGV.clear
@@ -18,22 +19,26 @@ while true
         end
     end
     # Check that company exists on the ASX
-    query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/name?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
-    response = HTTParty.get(query)
-    info = JSON.parse response.to_s
-    name = info["data"]
+    begin 
+        query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/name?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+        response = HTTParty.get(query)
+        info = JSON.parse response.to_s
+        name = info["data"]
+    rescue 
+        puts "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
+        exit
+    end
+    
     if name[0].match(/UnsupportedCompanyError/)
         puts "It appears that company does not exist on the ASX, please try again."
     else
         break
     end
 end
-
-
-
 # Check for optional argument
-if ARGV[1] == "-d"
+if ARGV[0] == "-d"
     system "clear"
+    puts "Working...."
     puts print_table(ticker)
     puts
     puts debt_levels(ticker)
@@ -43,7 +48,6 @@ if ARGV[1] == "-d"
 else
     ARGV.clear
 end
-
 
 menu = ["financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
 while true

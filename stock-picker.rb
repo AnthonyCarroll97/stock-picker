@@ -55,12 +55,12 @@ financials.each do |financial|
         info = JSON.parse response.to_s
         arr = info["data"]
     rescue 
-        puts "error!"
+        return "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
     end
     #send data to growth method
-    growth(arr.last, arr.first, 10, financial)
-    growth(arr.last, arr[5], 5, financial)
-    growth(arr.last, arr[7], 3, financial)
+    growth(arr.last, arr.first, 9, financial)
+    growth(arr.last, arr[5], 4, financial)
+    growth(arr.last, arr[7], 2, financial)
 end
 # populate table
 @table << @revenue

@@ -1,8 +1,8 @@
 require ('httparty')
+require ('colorize')
     
 def sticker_price(ticker)
-i = 1
-sticker_financials = ["eps_basic?period=FY", "total_equity?period=FY-9:FY", "price_to_earnings?period=FY-9:FY"]
+sticker_financials = ["eps_basic?period=FY", "total_equity?period=FY-9:FY", "price_to_earnings?period=FY-9:FY", "price?period=FY"]
 sticker_financials.each do |financial|
     begin
         query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}&api_key=e402e5e80284839d46c702e520e64add610df30d"
@@ -10,25 +10,50 @@ sticker_financials.each do |financial|
         # Parse JSON response and convert into array
         info = JSON.parse response.to_s
         arr = info["data"]
-    rescue 
-        return "Error! couldn't connect to QuickFS API"
-    end
-    
-    case i
-    when 1
+    rescue
+        return "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
+    end 
+    case financial
+    when "eps_basic?period=FY"
         @ttm_eps = arr[0]
-    when 2
-        @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/10.0)) - 1
-        @growth_rate = @growth_rate.round(2)
-    when 3
-        @pe_ratio = ((arr.sum) / 10).round(2)
+    when "total_equity?period=FY-9:FY"
+        if arr[0] == 0
+            arr.shift(5)
+            @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/4.0)) - 1
+            @growth_rate = @growth_rate.round(2)
+        else    
+            @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/9.0)) - 1
+            @growth_rate = @growth_rate.round(2)
+        end
+    when "price_to_earnings?period=FY-9:FY"
+        if arr[0] == 0
+            arr.shift(5) 
+            @pe_ratio = ((arr.sum) / 5).round(2)
+        else
+            @pe_ratio = ((arr.sum) / 10).round(2)
+        end
+    when "price?period=FY"
+        @current_price = arr
     end
-    i += 1
 end
 
 future_eps = @ttm_eps * ((1 + @growth_rate) ** 10)
 future_price = future_eps * @pe_ratio
-
-return "Future EPS: $#{future_eps.round(2)}\nFuture share price: $#{future_price.round(2)}\nSticker price: $#{(future_price / 4).round(2)}\nMargin of safety price: $#{(future_price / 8).round(2)}"
+#color current price
+if @current_price < (future_price/8)
+    @current_price = @current_price.to_s.green
+else
+    @current_price = @current_price.to_s.red
+end
+return "Future EPS: $#{future_eps.round(2)}
+Future share price: $#{future_price.round(2)}
+Sticker price: $#{(future_price / 4).round(2)}
+Margin of safety price: $#{(future_price / 8).round(2)}
+#{ticker} last closed at $#{@current_price} per share
+----------------------------
+Results calculated from the following:
+TTM EPS: #{@ttm_eps}
+Equity growth rate: #{@growth_rate * 100}%
+Average PE ratio: #{@pe_ratio}"
 end
 

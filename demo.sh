@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 #gem install bundler
 #bundle install
