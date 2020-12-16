@@ -1,36 +1,68 @@
 require ('tty-prompt')
 require_relative ('./sticker-price.rb')
 require_relative ('stock-picker.rb')
+require_relative ('debt.rb')
 prompt = TTY::Prompt.new
-menu = ["financials", "Look at debt/equity", "Calculate sticker price","Print company report", "Exit"]
-# Get ticker code and validate
-ticker = ""
+
+# Get ticker code and validate length
+
+while true
+    ticker = ""
     if ARGV.length > 0 && ARGV[0].length == 3
         ticker = ARGV[0].upcase
     else 
         while ticker.length != 3
-        puts "invalid code"
-        print "Enter ticker code: "
-        ticker = gets.chomp.upcase
+            ARGV.clear
+            puts "Enter ticker code: "
+            ticker = gets.chomp.upcase
         end
     end
+    # Check that company exists on the ASX
+    query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/name?period=FY&api_key=e402e5e80284839d46c702e520e64add610df30d"
+    response = HTTParty.get(query)
+    info = JSON.parse response.to_s
+    name = info["data"]
+    if name[0].match(/UnsupportedCompanyError/)
+        puts "It appears that company does not exist on the ASX, please try again."
+    else
+        break
+    end
+end
 
 
+
+# Check for optional argument
+if ARGV[1] == "-d"
+    system "clear"
+    puts print_table(ticker)
+    puts
+    puts debt_levels(ticker)
+    puts
+    puts sticker_price(ticker)
+    exit 
+else
+    ARGV.clear
+end
+
+
+menu = ["financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
 while true
-    input = prompt.select("Analysing #{ticker}", menu)
+    input = prompt.select("Analysing #{name}", menu)
     case input
     when "financials"
         system "clear"
+        puts "Printing financials table..."
         @table = print_table(ticker)
         puts @table
         print "press ENTER key to continue"
-        a = gets
-    when "Look at debt/equity"
+        gets
+    when "Look at debt/cash flow"
         system "clear"
-        puts "under construction"
+        @debt = debt_levels(ticker)
+        puts @debt
         print "press ENTER key to continue"
-        
-    when "Calculate sticker price"
+        gets
+    when "Calculate sticker & MOS price"
         system "clear"
         @prices = sticker_price(ticker)
         puts @prices
@@ -41,6 +73,8 @@ while true
         puts "printing company report..."
         puts @table
         puts 
+        puts @debt
+        puts
         puts @prices
         puts "press ENTER key to continue"
         

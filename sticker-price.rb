@@ -29,6 +29,6 @@ end
 future_eps = @ttm_eps * ((1 + @growth_rate) ** 10)
 future_price = future_eps * @pe_ratio
 
-return "The future EPS will be $#{future_eps.round(2)}\nThe future share price will be $#{future_price.round(2)}\nThe sticker price is $#{(future_price / 4).round(2)}\nThe MOS price is $#{(future_price / 8).round(2)}"
+return "Future EPS: $#{future_eps.round(2)}\nFuture share price: $#{future_price.round(2)}\nSticker price: $#{(future_price / 4).round(2)}\nMargin of safety price: $#{(future_price / 8).round(2)}"
 end
 
