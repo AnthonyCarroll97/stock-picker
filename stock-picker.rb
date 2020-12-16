@@ -55,7 +55,7 @@ financials.each do |financial|
         info = JSON.parse response.to_s
         arr = info["data"]
     rescue 
-        puts "error!"
+        return "Error! couldn't connect to QuickFS API"
         
     end
     #send data to growth method

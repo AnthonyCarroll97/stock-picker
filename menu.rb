@@ -4,19 +4,17 @@ require_relative ('stock-picker.rb')
 prompt = TTY::Prompt.new
 menu = ["financials", "Look at debt/equity", "Calculate sticker price","Print company report", "Exit"]
 # Get ticker code and validate
-
-if ARGV.length > 0
-    if ARGV[0].length == 3
+ticker = ""
+    if ARGV.length > 0 && ARGV[0].length == 3
         ticker = ARGV[0].upcase
-    else
-        puts "Invalid ticker code passed as argument"
+    else 
+        while ticker.length != 3
+        puts "invalid code"
         print "Enter ticker code: "
         ticker = gets.chomp.upcase
+        end
     end
-else 
-    print "Enter ticker code: "
-    ticker = gets.chomp.upcase
-end
+
 
 while true
     input = prompt.select("Analysing #{ticker}", menu)
@@ -26,18 +24,18 @@ while true
         @table = print_table(ticker)
         puts @table
         print "press ENTER key to continue"
-        gets
+        a = gets
     when "Look at debt/equity"
         system "clear"
         puts "under construction"
         print "press ENTER key to continue"
-        gets
+        
     when "Calculate sticker price"
         system "clear"
         @prices = sticker_price(ticker)
         puts @prices
         print "press ENTER key to continue"
-        gets
+        
     when "Print company report"
         system "clear"
         puts "printing company report..."
@@ -45,7 +43,7 @@ while true
         puts 
         puts @prices
         puts "press ENTER key to continue"
-        gets
+        
     when "Exit"
         break
     end

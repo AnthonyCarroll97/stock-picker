@@ -4,11 +4,16 @@ def sticker_price(ticker)
 i = 1
 sticker_financials = ["eps_basic?period=FY", "total_equity?period=FY-9:FY", "price_to_earnings?period=FY-9:FY"]
 sticker_financials.each do |financial|
-    query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}&api_key=e402e5e80284839d46c702e520e64add610df30d"
-    response = HTTParty.get(query)
-    # Parse JSON response and convert into array
-    info = JSON.parse response.to_s
-    arr = info["data"]
+    begin
+        query = "https://public-api.quickfs.net/v1/data/#{ticker}:AU/#{financial}&api_key=e402e5e80284839d46c702e520e64add610df30d"
+        response = HTTParty.get(query)
+        # Parse JSON response and convert into array
+        info = JSON.parse response.to_s
+        arr = info["data"]
+    rescue 
+        return "Error! couldn't connect to QuickFS API"
+    end
+    
     case i
     when 1
         @ttm_eps = arr[0]

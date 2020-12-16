@@ -3,4 +3,4 @@
 #gem install bundler
 #bundle install
 
-ruby menu.rb 
+ruby menu.rb $1
