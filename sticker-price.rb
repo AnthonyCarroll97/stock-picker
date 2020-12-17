@@ -13,24 +13,26 @@ sticker_financials.each do |financial|
     rescue
         return "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
     end 
+
     case financial
     when "eps_basic?period=FY"
         @ttm_eps = arr[0]
     when "total_equity?period=FY-9:FY"
         if arr[0] == 0
             arr.shift(5)
-            @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/4.0)) - 1
-            @growth_rate = @growth_rate.round(2)
-        else    
-            @growth_rate = ((arr.last.to_f / arr.first.to_f) ** ( 1/9.0)) - 1
-            @growth_rate = @growth_rate.round(2)
+            @growth_rate = ((arr.last.to_f / arr.first.to_f).round(2) ** ( 1/4.0)) - 1
+
+            else    
+            @growth_rate = ((arr.last.to_f / arr.first.to_f).round(2) ** ( 1/9.0)) - 1
         end
     when "price_to_earnings?period=FY-9:FY"
         if arr[0] == 0
             arr.shift(5) 
-            @pe_ratio = ((arr.sum) / 5).round(2)
+            @avg_pe = ((arr.sum) / 5).round(2)
+            @pe_ratio = "#{@avg_pe} (5 year average)"
         else
-            @pe_ratio = ((arr.sum) / 10).round(2)
+            @avg_pe = ((arr.sum) / 10).round(2)
+            @pe_ratio = "#{@avg_pe} (10 year average)"
         end
     when "price?period=FY"
         @current_price = arr
@@ -38,7 +40,7 @@ sticker_financials.each do |financial|
 end
 
 future_eps = @ttm_eps * ((1 + @growth_rate) ** 10)
-future_price = future_eps * @pe_ratio
+future_price = future_eps * @avg_pe
 #color current price
 if @current_price < (future_price/8)
     @current_price = @current_price.to_s.green
@@ -53,7 +55,7 @@ Margin of safety price: $#{(future_price / 8).round(2)}
 ----------------------------
 Results calculated from the following:
 TTM EPS: #{@ttm_eps}
-Equity growth rate: #{@growth_rate * 100}%
+Equity growth rate: #{(@growth_rate * 100.0).round(2)}%
 Average PE ratio: #{@pe_ratio}"
 end
 

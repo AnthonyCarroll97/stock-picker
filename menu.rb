@@ -37,7 +37,7 @@ while true
 end
 # Check for optional argument
 if ARGV[0] == "-d"
-    system "clear"
+    # system "clear"
     puts "Working...."
     puts print_table(ticker)
     puts
