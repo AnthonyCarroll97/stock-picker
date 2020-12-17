@@ -23,7 +23,7 @@ def debt_levels(ticker)
     if @lt_debt == 0
         return "#{ticker} has no long term debt!"
     elsif @fcf < 0
-        puts "#{ticker} posted negative free cash flow for the last financial year"
+        return "#{ticker} posted negative free cash flow for the last financial year"
     else
         years = @lt_debt.to_f / @fcf.to_f
         return "#{ticker} can pay off their long term debt in #{years.round(1)} years of free cash flow."

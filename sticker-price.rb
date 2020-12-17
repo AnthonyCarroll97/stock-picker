@@ -59,3 +59,5 @@ Equity growth rate: #{(@growth_rate * 100.0).round(2)}%
 Average PE ratio: #{@pe_ratio}"
 end
 
+
+

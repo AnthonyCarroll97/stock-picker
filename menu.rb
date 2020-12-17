@@ -5,7 +5,6 @@ require_relative ('debt.rb')
 prompt = TTY::Prompt.new
 
 # Get ticker code and validate length
-
 while true
     ticker = ""
     if ARGV.length > 0 && ARGV[0].length == 3
@@ -37,7 +36,7 @@ while true
 end
 # Check for optional argument
 if ARGV[0] == "-d"
-    # system "clear"
+    system "clear"
     puts "Working...."
     puts print_table(ticker)
     puts

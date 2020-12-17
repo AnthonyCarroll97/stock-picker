@@ -6,35 +6,13 @@ def growth(present, past, n, financial)
     if past == 0
         rate = " - "
     else 
-    #     # Calculate rate of growth
+        # Calculate rate of growth
         rate = (present / past.to_f).round(2) ** ( 1.0/n)
         if rate.class == Complex
             rate = rate.abs
         end 
         rate -= 1
         rate = (rate * 100).round(2) 
-
-
-        # puts financial
-        # a = present/past.to_f
-        # puts "a #{a}" 
-        # b = a.round(2)
-        # puts "b #{b}"  
-        # c = 1.0/n 
-        # puts "c #{c}"
-        # d = b ** c 
-        # puts "d #{d}" 
-        # if d.class == Complex
-        #     d = d.abs
-        # end
-        # e = d - 1
-        # puts "e #{e}"
-        
-        # puts present
-        # puts past
-        # # puts "rate: #{rate}"
-        # rate = e 
-        # rate = (rate * 100).round(2)
 
         # colour the growth rate
         if rate < 0
@@ -88,14 +66,16 @@ financials.each do |financial|
     growth(arr.last, arr[5], 4, financial)
     growth(arr.last, arr[7], 2, financial)
 end
+
 # populate table
 @table << @revenue
 @table << @total_equity 
 @table << @roic
-
 @table << @fcf
 @table << @eps_basic
 # output table
 return @table.render(:unicode)
-
 end
+
+
+
