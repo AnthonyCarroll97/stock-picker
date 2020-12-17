@@ -92,7 +92,6 @@ end
 @table << @revenue
 @table << @total_equity 
 @table << @roic
-
 @table << @fcf
 @table << @eps_basic
 # output table
