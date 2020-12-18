@@ -59,6 +59,7 @@ while true
         puts "Printing financials table..."
         @table = print_table(ticker)
         puts @table
+        puts @table.class
         print "press ENTER key to continue"
         gets
     when "Look at debt/cash flow"
