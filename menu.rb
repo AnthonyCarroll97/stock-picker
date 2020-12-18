@@ -38,7 +38,6 @@ end
 if ARGV[0] == "-d"
     system "clear"
     puts "Financial report for #{name}"
->>>>>>> cb866fb1ab70dba3ec6727230a7064445ed5431c
     puts print_table(ticker)
     puts
     puts debt_levels(ticker)
