@@ -49,3 +49,5 @@ There are a number of verification methods in place to ensure that the user ente
 Error handling has also been implemented around each API call in the application. This ensures that if the user is not connected to the internet or there is a problem with the API, the user will be presented with a clean and gracefull message asking them to check their internet connection and try again.
 
 ## Flow Chart
+
+![Flow Chart](./docs/flow_chart.png)

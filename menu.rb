@@ -52,18 +52,17 @@ else
     ARGV.clear
 end
 
-menu = ["financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
+menu = ["Financials", "Look at debt/cash flow", "Calculate sticker & MOS price","Print company report", "Exit"]
 while true
     system "clear"
     input = prompt.select("Analysing #{name}", menu)
     
     case input
-    when "financials"
+    when "Financials"
         system "clear"
         puts "Printing financials table..."
         @table = print_table(ticker)
         puts @table
-        puts @table.class
         print "press ENTER key to continue"
         gets
     when "Look at debt/cash flow"

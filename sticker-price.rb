@@ -11,7 +11,7 @@ sticker_financials.each do |financial|
         info = JSON.parse response.to_s
         arr = info["data"]
     rescue
-        return "It appears there was an error connecting to the QuickFS API. Please check your internet connection and try again."
+        return "There appears to be an error connecting to the QuickFS API. Please check your internet connection and try again."
     end 
 
     case financial
