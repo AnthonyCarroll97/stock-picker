@@ -13,7 +13,7 @@ while true
     else 
         while ticker.length != 3
             ARGV.clear
-            puts "Enter ticker code: "
+            puts "Enter ticker code: (e.g. \"FMG\")"
             ticker = gets.chomp.upcase
         end
     end
@@ -28,10 +28,14 @@ while true
         exit
     end
     
-    if name[0].match(/UnsupportedCompanyError/)
-        puts "It appears that company does not exist on the ASX, please try again."
-    else
-        break
+    begin 
+        if name[0].match(/UnsupportedCompanyError/)
+            puts "It appears that company does not exist on the ASX, please try again."
+        else
+            break
+        end
+    rescue
+        puts "Your daily quota of API calls has been reached, please try again in 24 hours"
     end
 end
 # Check for optional argument
